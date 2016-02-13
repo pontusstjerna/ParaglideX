@@ -3,14 +3,10 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-	public const float PLAYER_WEIGHT = 80f;
-	public const float GRAVITY = 9.807f;
-
 	private Vector3 moveDirection = Vector3.zero;
 	private CharacterController controller;
 	private float speed = 6;
-
-	private const float MOUSE_SENSITIVITY = 3f;
+	private bool deployed = false;
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +24,12 @@ public class Player : MonoBehaviour {
 			//Sprint
 			if (Input.GetKey (KeyCode.LeftShift)) {
 				speed = 12;
+			}else{
+				speed = 6;
+			}
+
+			if(Input.GetKeyUp (KeyCode.Space)){ //Deploy the glider. Kind of lags. 
+				deployed = !deployed;
 			}
 
 			//Add the user inputs. X is sideways, Z is forward/backward.
@@ -40,17 +42,21 @@ public class Player : MonoBehaviour {
 			moveDirection *= speed;
 
 		} else {//Apply gravity!
-			moveDirection.y -= GRAVITY;
+			moveDirection.y -= Reference.GRAVITY;
 		}
 
 		//Apply movement
 		controller.Move(moveDirection * Time.deltaTime);
 
-		//Rotate vertically around the local x-axis.
-		transform.Rotate(Input.GetAxis("mouseY")*Time.deltaTime*-MOUSE_SENSITIVITY, 0,0, Space.Self);
+		if (!deployed) {//Turn the whole player when not deployed
 
-		//This should actually not be Space.World but Space.Paraglider, 
-		//since if in a turn, you should look horizontally relative to the glider.
-		transform.Rotate (0, Input.GetAxis ("mouseX")*Time.deltaTime*MOUSE_SENSITIVITY, 0, Space.World);
+			//This should actually not be Space.World but Space.Paraglider, 
+			//since if in a turn, you should look horizontally relative to the glider.
+			transform.Rotate (0, Input.GetAxis ("mouseX") * Time.deltaTime * Reference.MOUSE_SENSITIVITY, 0, Space.World);
+		}
+	}
+
+	public bool getDeployed(){
+		return deployed;
 	}
 }
