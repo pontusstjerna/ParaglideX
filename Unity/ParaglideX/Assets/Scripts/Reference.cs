@@ -6,4 +6,5 @@ public static class Reference {
 	public const float GRAVITY = 9.807f;
 	public const float LOOK_UP_LIMIT = 270f;
 	public const float LOOK_DOWN_LIMIT = 90f;
+	public const float FLYABLE_ANGLE = 30f;
 }
