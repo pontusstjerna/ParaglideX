@@ -8,21 +8,24 @@ public class Player : MonoBehaviour {
 	private float speed = 6;
 	public bool deployed = true;
 	private Rigidbody flyingBody;
+	private CapsuleCollider flyingCollider;
+	private bool onGround = false;
 
 	// Use this for initialization
 	void Start () {
 		controller = GetComponent<CharacterController> ();
 		flyingBody = GetComponent<Rigidbody> ();
+		flyingCollider = GetComponent<CapsuleCollider> ();
 
 		//Turn of the cursor while in fps
 		Cursor.visible = false;
+	
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		//If the player is on ground and no active glider
 		if (controller.isGrounded) {
-
 			//Sprint
 			if (Input.GetKey (KeyCode.LeftShift)) {
 				speed = 12;
@@ -44,11 +47,8 @@ public class Player : MonoBehaviour {
 			moveDirection *= speed;
 
 		} else {//In the air
-			if(deployed){ //Flying
-				controller.enabled = false;
-				flyingBody.isKinematic = false;
-				flyingBody.useGravity = true;
-				//flyingBody.enabled
+			if(deployed && controller.enabled && !onGround){ //Flying
+				switchGroundState();
 			}else{ //Falling without glider
 				moveDirection.y -= Reference.GRAVITY;
 			}
@@ -68,13 +68,20 @@ public class Player : MonoBehaviour {
 	//When hitting something
 	void OnCollisionEnter(Collision collisionObj){
 		if (collisionObj.gameObject.name == "Terrain") {
-			controller.enabled = true;
-			flyingBody.isKinematic = true;
-			flyingBody.useGravity = false;
-			print ("Hit on : " + collisionObj.gameObject.name);
+			switchGroundState();
+			onGround = true;
 		}
 	}
 
+	private void switchGroundState(){ //Just a preliminary solution, planning on making this better.
+
+		//Switch flight physics
+		controller.enabled = !controller.enabled;
+		flyingBody.isKinematic = !flyingBody.isKinematic;
+		flyingBody.useGravity = !flyingBody.useGravity;
+		flyingCollider.enabled = !flyingCollider.enabled;
+	//	onGround = true;
+	}
 
 	public bool getDeployed(){
 		return deployed;
