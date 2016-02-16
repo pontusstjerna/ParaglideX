@@ -4,10 +4,12 @@ using System.Collections;
 public class Camera : MonoBehaviour {
 
 	private Player player;
+	private Glider glider;
 
 	// Use this for initialization
 	void Start () {
 		player = transform.parent.GetComponent<Player> ();
+		glider = transform.parent.FindChild ("Glider").GetComponent<Glider> ();
 	}
 	
 	// Update is called once per frame
@@ -24,10 +26,14 @@ public class Camera : MonoBehaviour {
 			transform.Rotate(mouseY*Time.deltaTime*-Reference.MOUSE_SENSITIVITY, 0,0, Space.Self);
 		}
 
-		if (player.getDeployed ()) { //Control only mouse horizontal look when glider is deployed, do not move the actual player.
-			//This should actually not be Space.World but Space.Paraglider, 
-			//since if in a turn, you should look horizontally relative to the glider.
-			transform.Rotate (0, Input.GetAxis ("mouseX") * Time.deltaTime * Reference.MOUSE_SENSITIVITY, 0, Space.World);
+		if (player.getDeployed ()) { //Control only camera horizontal look when glider is deployed, do not move the actual player.
+
+			//Relative to the player's y
+			transform.RotateAround (transform.position, transform.parent.up, Input.GetAxis ("mouseX")
+			                        * Time.deltaTime * Reference.MOUSE_SENSITIVITY);
+		} else{ //Face camera same as player
+			transform.eulerAngles = new Vector3(
+				transform.eulerAngles.x, transform.parent.eulerAngles.y, transform.eulerAngles.z);
 		}
 	}
 }

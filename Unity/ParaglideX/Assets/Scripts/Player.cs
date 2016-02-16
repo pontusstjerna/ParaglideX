@@ -26,7 +26,7 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		playerControl ();
-		print ("Vario: " + flyingBody.velocity.y);
+		print ("Vario: " + flyingBody.velocity.y + " Speed: " + flyingBody.velocity.z);
 	}
 
 	//When hitting something
@@ -63,7 +63,7 @@ public class Player : MonoBehaviour {
 				moveDirection *= speed;
 			
 			} else {//In the air
-				if (deployed && controller.enabled && glider.flyAble ()) { //Flying
+				if (deployed && controller.enabled && glider.StartAble ()) { //Flying
 					setFlying (true);
 				} else { //Falling without glider
 					moveDirection.y -= Reference.GRAVITY;
