@@ -9,9 +9,9 @@ public class Glider : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		body = GetComponent<Rigidbody> ();
 		player = GameObject.Find ("Player").GetComponent<Player> ();
 		gliderRenderer = GetComponent<MeshRenderer> ();
-		body = GetComponent<Rigidbody> ();
 	}
 	
 	// Update is called once per frame
@@ -20,24 +20,28 @@ public class Glider : MonoBehaviour {
 		//Hide or show glider
 		gliderRenderer.enabled = player.getDeployed ();
 
-		fly ();
+		if (player.getDeployed ()) {
+			fly ();
+		}
 	}
 
 	private void fly(){
-		float yVel = -body.velocity.y * Mathf.Cos (Mathf.Deg2Rad * transform.rotation.eulerAngles.x);
-		float zVel = body.velocity.z;
 
-		Vector3 forward = new Vector3(0, 0, ((yVel) * Reference.PLAYER_MASS) / 17); //Fall makes speed
-		
-		Vector3 forwardDrag = Math.getDrag (body.velocity, Reference.DRAG_COEFFICIENT_FRONT, Reference.AIR_DENSITY_20,
+		//This should be relative to glider, not world
+		float yVel = transform.InverseTransformVector(body.velocity).y;
+		//print (transform.InverseTransformVector(body.velocity));
+		float zVel = transform.InverseTransformVector(body.velocity).z;
+
+		Vector3 forward = new Vector3(0, 0, (((-yVel) * Reference.PLAYER_WEIGHT)*1)/1); //Fall makes speed
+
+		Vector3 forwardDrag = Math.getDrag (transform.InverseTransformVector(body.velocity), Reference.DRAG_COEFFICIENT_FRONT, Reference.AIR_DENSITY_20,
 		                                    Reference.AREA_FRONT);
-
-		body.AddForce (getLift (yVel, Reference.PLAYER_MASS));
-		body.AddRelativeForce (forward + forwardDrag);
+		
+		body.AddRelativeForce (forward + forwardDrag + getRelativeLift (yVel, Reference.PLAYER_WEIGHT));
 	}
 
-	private Vector3 getLift(float fallVelocity, float mass){
-		return Vector3.up*((fallVelocity*mass*10)/17); //Speed makes lift
+	private Vector3 getRelativeLift(float fallVelocity, float mass){
+		return transform.InverseTransformVector(Vector3.up*((-fallVelocity*mass*35)/9)); //Speed makes lift
 	}
 
 	public bool flyAble(){ //If glider is above head

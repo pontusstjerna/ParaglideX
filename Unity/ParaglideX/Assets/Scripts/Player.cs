@@ -10,13 +10,11 @@ public class Player : MonoBehaviour {
 	public bool flying = true;
 	private Rigidbody flyingBody;
 	private CapsuleCollider flyingCollider;
-	private Glider glider;
 
 	// Use this for initialization
 	void Start () {
 		controller = GetComponent<CharacterController> ();
 		flyingBody = GetComponent<Rigidbody> ();
-		glider = transform.FindChild ("Glider").GetComponent<Glider> ();
 
 		//Turn of the cursor while in fps
 		Cursor.visible = false;
@@ -26,16 +24,16 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		playerControl ();
-		//print ("Vario: " + flyingBody.velocity.y + " Speed: " + flyingBody.velocity.z);
+		print ("Vario: " + flyingBody.velocity.y + " Speed: " + flyingBody.velocity.z);
 	}
 
-	void OnTriggerEnter(Collider collider){
+	void OnTriggerEnter(Collider collider){ //When hitting ground
 		if (collider.gameObject.name == "Terrain") {
 			setFlying (false);
 		}
 	}
 
-	void OnTriggerExit(Collider collider){
+	void OnTriggerExit(Collider collider){ //When leaving ground
 		if (collider.gameObject.name == "Terrain") {
 			setFlying (true);
 		}
