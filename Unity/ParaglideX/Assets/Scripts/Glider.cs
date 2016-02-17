@@ -20,11 +20,7 @@ public class Glider : MonoBehaviour {
 		//Hide or show glider
 		gliderRenderer.enabled = player.getDeployed ();
 
-		if(!flyAble() && player.onGround()){
-			startGlider();
-		}else{
-			fly ();
-		}
+		fly ();
 	}
 
 	private void fly(){
@@ -38,10 +34,6 @@ public class Glider : MonoBehaviour {
 
 		body.AddForce (getLift (yVel, Reference.PLAYER_MASS));
 		body.AddRelativeForce (forward + forwardDrag);
-	}
-
-	private void startGlider(){
-
 	}
 
 	private Vector3 getLift(float fallVelocity, float mass){

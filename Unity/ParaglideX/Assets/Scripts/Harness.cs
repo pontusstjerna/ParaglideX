@@ -24,7 +24,7 @@ public class Harness : MonoBehaviour {
 		if (player.getDeployed ()) {
 
 			//Lock rotation of harness when deployed
-			transform.rotation = rotation;
+			//transform.rotation = rotation;
 		} else {
 
 			//Keep rotation with player

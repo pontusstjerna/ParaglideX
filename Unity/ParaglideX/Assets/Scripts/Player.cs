@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
 	private CharacterController controller;
 	private float speed = 6;
 	public bool deployed = true;
+	public bool flying = true;
 	private Rigidbody flyingBody;
 	private CapsuleCollider flyingCollider;
 	private Glider glider;
@@ -15,7 +16,6 @@ public class Player : MonoBehaviour {
 	void Start () {
 		controller = GetComponent<CharacterController> ();
 		flyingBody = GetComponent<Rigidbody> ();
-		flyingCollider = GetComponent<CapsuleCollider> ();
 		glider = transform.FindChild ("Glider").GetComponent<Glider> ();
 
 		//Turn of the cursor while in fps
@@ -26,13 +26,18 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		playerControl ();
-		print ("Vario: " + flyingBody.velocity.y + " Speed: " + flyingBody.velocity.z);
+		//print ("Vario: " + flyingBody.velocity.y + " Speed: " + flyingBody.velocity.z);
 	}
 
-	//When hitting something
-	void OnCollisionEnter(Collision collisionObj){
-		if (collisionObj.gameObject.name == "Terrain") { //When the flying collider hits the ground
-			setFlying(false);
+	void OnTriggerEnter(Collider collider){
+		if (collider.gameObject.name == "Terrain") {
+			setFlying (false);
+		}
+	}
+
+	void OnTriggerExit(Collider collider){
+		if (collider.gameObject.name == "Terrain") {
+			setFlying (true);
 		}
 	}
 
@@ -63,11 +68,7 @@ public class Player : MonoBehaviour {
 				moveDirection *= speed;
 			
 			} else {//In the air
-				if (deployed && controller.enabled && glider.StartAble ()) { //Flying
-					setFlying (true);
-				} else { //Falling without glider
-					moveDirection.y -= Reference.GRAVITY;
-				}
+				moveDirection.y -= Reference.GRAVITY;
 			}
 		
 			//Apply movement
@@ -88,7 +89,7 @@ public class Player : MonoBehaviour {
 		controller.enabled = !flying;
 		flyingBody.isKinematic = !flying;
 		flyingBody.useGravity = flying;
-		flyingCollider.enabled = flying;
+		this.flying = flying;
 	}
 
 	public bool getDeployed(){
