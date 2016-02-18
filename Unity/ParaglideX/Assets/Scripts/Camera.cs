@@ -4,12 +4,10 @@ using System.Collections;
 public class Camera : MonoBehaviour {
 
 	private Player player;
-	private Glider glider;
 
 	// Use this for initialization
 	void Start () {
 		player = transform.parent.GetComponent<Player> ();
-		glider = transform.parent.FindChild ("Glider").GetComponent<Glider> ();
 	}
 	
 	// Update is called once per frame

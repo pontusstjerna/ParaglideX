@@ -6,8 +6,8 @@ public class Player : MonoBehaviour {
 	private Vector3 moveDirection = Vector3.zero;
 	private CharacterController controller;
 	private float speed = 6;
-	public bool deployed = true;
-	public bool flying = true;
+	public bool deployed;
+	public bool flying;
 	private Rigidbody flyingBody;
 	private CapsuleCollider flyingCollider;
 	private Quaternion startRotation;
@@ -22,11 +22,12 @@ public class Player : MonoBehaviour {
 		Cursor.visible = false;
 	
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+	void FixedUpdate () {
 		playerControl ();
-		//print ("Vario: " + flyingBody.velocity.y + " Speed: " + flyingBody.velocity.z);
+		viewControl ();
+		//print ("Vario: " + flyingBody.velocity.y +
+		//	" Speed: " + transform.InverseTransformVector(flyingBody.velocity).z);
 	}
 
 	void OnTriggerEnter(Collider collider){ //When hitting ground
@@ -42,7 +43,6 @@ public class Player : MonoBehaviour {
 	}
 
 	private void unDeployedControl(){ //All the code for player control
-
 
 		//If the player is on ground and no active glider
 		if (controller.isGrounded) {
@@ -76,13 +76,13 @@ public class Player : MonoBehaviour {
 
 	private void deployedControl(){
 		//Walk forward
-		flyingBody.AddForce (Vector3.forward * Input.GetAxis ("forward")*1000);
+		flyingBody.AddRelativeForce (Vector3.forward * Input.GetAxis ("forward")*800);
 	}
 
 	private void playerControl(){
 		if (!flying) {
 			//Listen for deploy input
-			if (Input.GetKeyUp (KeyCode.Space)) { //Deploy the glider. Kind of lags. 
+			if (Input.GetKeyUp (KeyCode.Space) && flyingBody.velocity.y < 0.5f && flyingBody.velocity.y > -0.5f) { //Deploy the glider. Kind of lags. 
 				setDeployed(!deployed);
 			}
 			if (deployed) {
@@ -99,7 +99,8 @@ public class Player : MonoBehaviour {
 		this.flying = flying;
 		flyingBody.freezeRotation = !flying;
 		if(flyingBody.freezeRotation){//Rotate the player right when landing
-			flyingBody.rotation = startRotation;
+			flyingBody.rotation = Quaternion.Euler (flyingBody.rotation.eulerAngles.x, 
+				flyingBody.rotation.eulerAngles.y, startRotation.eulerAngles.z);
 		}
 	}
 
@@ -110,6 +111,16 @@ public class Player : MonoBehaviour {
 		controller.enabled = !deployed;
 		flyingBody.useGravity = deployed;
 		flyingBody.isKinematic = !deployed;
+	}
+
+	private void viewControl(){
+		if (Input.GetKeyUp (KeyCode.V) && deployed) { //If v is pressed, change camera
+
+			GameObject fpvCamera = transform.FindChild ("FpvCamera").gameObject;
+			GameObject thirdPvCamera = transform.FindChild ("ThirdViewCamera").gameObject;
+			fpvCamera.SetActive(!fpvCamera.activeSelf);
+			thirdPvCamera.SetActive(!thirdPvCamera.activeSelf);
+		}
 	}
 
 	public bool getDeployed(){
