@@ -5,7 +5,7 @@ public class Harness : MonoBehaviour {
 
 	private Player player;
 	private MeshRenderer harnessRenderer;
-	private Quaternion rotation;
+
 
 	// Use this for initialization
 	void Start () {
@@ -28,7 +28,7 @@ public class Harness : MonoBehaviour {
 		} else {
 
 			//Keep rotation with player
-			rotation = transform.parent.rotation;
+			transform.rotation = transform.parent.rotation;
 		}
 
 	}

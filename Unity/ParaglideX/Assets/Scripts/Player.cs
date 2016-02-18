@@ -10,11 +10,13 @@ public class Player : MonoBehaviour {
 	public bool flying = true;
 	private Rigidbody flyingBody;
 	private CapsuleCollider flyingCollider;
+	private Quaternion startRotation;
 
 	// Use this for initialization
 	void Start () {
 		controller = GetComponent<CharacterController> ();
 		flyingBody = GetComponent<Rigidbody> ();
+		startRotation = flyingBody.rotation;
 
 		//Turn of the cursor while in fps
 		Cursor.visible = false;
@@ -24,7 +26,7 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		playerControl ();
-		print ("Vario: " + flyingBody.velocity.y + " Speed: " + flyingBody.velocity.z);
+		//print ("Vario: " + flyingBody.velocity.y + " Speed: " + flyingBody.velocity.z);
 	}
 
 	void OnTriggerEnter(Collider collider){ //When hitting ground
@@ -39,44 +41,54 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	private void playerControl(){ //All the code for player control
+	private void unDeployedControl(){ //All the code for player control
 
-		if (controller.enabled) {
 
-			//If the player is on ground and no active glider
-			if (controller.isGrounded) {
-				//Sprint
-				if (Input.GetKey (KeyCode.LeftShift)) {
-					speed = 12;
-				} else {
-					speed = 6;
-				}
-			
-				if (Input.GetKeyUp (KeyCode.Space)) { //Deploy the glider. Kind of lags. 
-					deployed = !deployed;
-				}
-			
-				//Add the user inputs. X is sideways, Z is forward/backward.
-				moveDirection = new Vector3 (Input.GetAxis ("sideways"), 0, Input.GetAxis ("forward"));
-			
-				//Translate the direction to world space
-				moveDirection = transform.TransformDirection (moveDirection);
-			
-				//Apply the speed! 
-				moveDirection *= speed;
-			
-			} else {//In the air
-				moveDirection.y -= Reference.GRAVITY;
+		//If the player is on ground and no active glider
+		if (controller.isGrounded) {
+			//Sprint
+			if (Input.GetKey (KeyCode.LeftShift)) {
+				speed = 12;
+			} else {
+				speed = 6;
 			}
 		
-			//Apply movement
-			controller.Move (moveDirection * Time.deltaTime);
+			//Add the user inputs. X is sideways, Z is forward/backward.
+			moveDirection = new Vector3 (Input.GetAxis ("sideways"), 0, Input.GetAxis ("forward"));
 		
-			if (!deployed) {//Turn the whole player when not deployed
-			
-				//This should actually not be Space.World but Space.Paraglider, 
-				//since if in a turn, you should look horizontally relative to the glider.
-				transform.Rotate (0, Input.GetAxis ("mouseX") * Time.deltaTime * Reference.MOUSE_SENSITIVITY, 0, Space.World);
+			//Translate the direction to world space
+			moveDirection = transform.TransformDirection (moveDirection);
+		
+			//Apply the speed! 
+			moveDirection *= speed;
+		
+		} else {//In the air
+			moveDirection.y -= Reference.GRAVITY;
+		}
+	
+		//Apply movement
+		controller.Move (moveDirection * Time.deltaTime);
+
+		//This should actually not be Space.World but Space.Paraglider, 
+		//since if in a turn, you should look horizontally relative to the glider.
+		transform.Rotate (0, Input.GetAxis ("mouseX") * Time.deltaTime * Reference.MOUSE_SENSITIVITY, 0, Space.World);
+	}
+
+	private void deployedControl(){
+		//Walk forward
+		flyingBody.AddForce (Vector3.forward * Input.GetAxis ("forward")*1000);
+	}
+
+	private void playerControl(){
+		if (!flying) {
+			//Listen for deploy input
+			if (Input.GetKeyUp (KeyCode.Space)) { //Deploy the glider. Kind of lags. 
+				setDeployed(!deployed);
+			}
+			if (deployed) {
+				deployedControl ();
+			} else {
+				unDeployedControl ();
 			}
 		}
 	}
@@ -84,10 +96,20 @@ public class Player : MonoBehaviour {
 	private void setFlying(bool flying){//Sets the mode to flying or not
 
 		//Switch flight physics
-		controller.enabled = !flying;
-		flyingBody.isKinematic = !flying;
-		flyingBody.useGravity = flying;
 		this.flying = flying;
+		flyingBody.freezeRotation = !flying;
+		if(flyingBody.freezeRotation){//Rotate the player right when landing
+			flyingBody.rotation = startRotation;
+		}
+	}
+
+	private void setDeployed(bool deployed){ //Sets the mode to deployed or not
+
+		//Swith ground handling physics
+		this.deployed = deployed;
+		controller.enabled = !deployed;
+		flyingBody.useGravity = deployed;
+		flyingBody.isKinematic = !deployed;
 	}
 
 	public bool getDeployed(){

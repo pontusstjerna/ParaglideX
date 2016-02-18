@@ -20,28 +20,37 @@ public class Glider : MonoBehaviour {
 		//Hide or show glider
 		gliderRenderer.enabled = player.getDeployed ();
 
+		if (Input.GetKey (KeyCode.Space) && !player.getDeployed()) {
+			body.AddRelativeForce(Vector3.back*1000);
+		}
+
 		if (player.getDeployed ()) {
 			fly ();
 		}
+
+		print (transform.InverseTransformVector (body.velocity));
 	}
 
 	private void fly(){
 
-		//This should be relative to glider, not world
+		//The local velocity of the glider
 		float yVel = transform.InverseTransformVector(body.velocity).y;
-		//print (transform.InverseTransformVector(body.velocity));
-		float zVel = transform.InverseTransformVector(body.velocity).z;
-
-		Vector3 forward = new Vector3(0, 0, (((-yVel) * Reference.PLAYER_WEIGHT)*1)/1); //Fall makes speed
+		//float zVel = transform.InverseTransformVector(body.velocity).z;
 
 		Vector3 forwardDrag = Math.getDrag (transform.InverseTransformVector(body.velocity), Reference.DRAG_COEFFICIENT_FRONT, Reference.AIR_DENSITY_20,
 		                                    Reference.AREA_FRONT);
-		
-		body.AddRelativeForce (forward + forwardDrag + getRelativeLift (yVel, Reference.PLAYER_WEIGHT));
+
+		//Add the forces
+		body.AddRelativeForce (getRelativeGlide(yVel, Reference.PLAYER_WEIGHT) + 
+		                       forwardDrag + getRelativeLift (yVel, Reference.PLAYER_WEIGHT));
 	}
 
 	private Vector3 getRelativeLift(float fallVelocity, float mass){
 		return transform.InverseTransformVector(Vector3.up*((-fallVelocity*mass*35)/9)); //Speed makes lift
+	}
+
+	private Vector3 getRelativeGlide(float fallVelocity, float mass){
+		return new Vector3(0, 0, (((-fallVelocity) * mass)*1)/1); //Fall makes speed
 	}
 
 	public bool flyAble(){ //If glider is above head
