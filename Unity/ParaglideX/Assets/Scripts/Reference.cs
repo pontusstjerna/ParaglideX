@@ -12,7 +12,7 @@ public static class Reference {
 	public const float DRAG_COEFFICIENT_UNDER = 0.9f;
 	public const float AIR_DENSITY_20 = 1.2041f; //https://en.wikipedia.org/wiki/Density_of_air
 	public const float AREA_UNDER = 22;
-	public const float AREA_FRONT = 8;
+	public const float AREA_FRONT = 6;
 	public const float AREA_BRAKE = 1;
 	public const float STALL_LIMIT = 2;
 }

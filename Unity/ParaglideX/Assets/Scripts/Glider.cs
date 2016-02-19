@@ -5,6 +5,7 @@ public class Glider : MonoBehaviour {
 
 	private Player player;
 	private Rigidbody body;
+	public float angleOfAttack = 8;
 
 	// Use this for initialization
 	void Start () {
@@ -51,7 +52,7 @@ public class Glider : MonoBehaviour {
 		//Lift ~ relativeVel^2 * angleOfAttack
 
 		if (transform.InverseTransformDirection (body.velocity).z > Reference.STALL_LIMIT) { //Cheap stall check
-			return (Vector3.up * Mathf.Pow(relativeSpeed,2)*(GetAngleOfAttack(body.rotation.eulerAngles.x))); //Speed makes lift
+			return (Vector3.up * Mathf.Pow(relativeSpeed,2)*angleOfAttack); //Speed makes lift
 		} else {
 			return Vector3.zero;
 		}
@@ -64,10 +65,6 @@ public class Glider : MonoBehaviour {
 	public bool flyAble(){ //If glider is above head
 		return transform.rotation.eulerAngles.x < Reference.FLYABLE_ANGLE &&
 			transform.rotation.eulerAngles.x > -Reference.FLYABLE_ANGLE;
-	}
-
-	private float GetAngleOfAttack(float localRotationX){ //Angle of attack never changes? Hmm...
-		return 7;
 	}
 
 	private void brake(){
