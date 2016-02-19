@@ -10,9 +10,11 @@ public static class Reference {
 	public const float PLAYER_MASS = PLAYER_WEIGHT*GRAVITY;
 	public const float DRAG_COEFFICIENT_FRONT = 0.40f; //https://en.wikipedia.org/wiki/Drag_coefficient
 	public const float DRAG_COEFFICIENT_UNDER = 0.9f;
+	public const float DRAG_COEFFICIENT_SIDE = 0.50f;
 	public const float AIR_DENSITY_20 = 1.2041f; //https://en.wikipedia.org/wiki/Density_of_air
 	public const float AREA_UNDER = 22;
 	public const float AREA_FRONT = 6;
 	public const float AREA_BRAKE = 1;
+	public const float AREA_SIDE = 5;
 	public const float STALL_LIMIT = 2;
 }

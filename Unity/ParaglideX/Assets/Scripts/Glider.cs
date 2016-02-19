@@ -27,6 +27,7 @@ public class Glider : MonoBehaviour {
 
 	private void fly(){
 		//The local velocity of the glider
+		float xVel = transform.InverseTransformDirection(body.velocity).x;
 		float yVel = transform.InverseTransformDirection(body.velocity).y;
 		float zVel = transform.InverseTransformDirection(body.velocity).z;
 
@@ -35,12 +36,16 @@ public class Glider : MonoBehaviour {
 		Vector3 fallDrag = Math.getDrag (yVel * Vector3.up, Reference.DRAG_COEFFICIENT_UNDER, Reference.AIR_DENSITY_20,
 			                   Reference.AREA_UNDER);
 
+		//Drag from side-drifting. Speed is a stabilizer! THIS MAGICALLY CREATED CENTRIFUGAL-FORCES!!
+		Vector3 sideDrag = Math.getDrag (xVel * Vector3.right * Mathf.Abs(zVel), Reference.DRAG_COEFFICIENT_SIDE, Reference.AIR_DENSITY_20,
+			                   Reference.AREA_SIDE);
+
 		//The fall drag is ALWAYS the opposite of gravity, depending on how much of the
 		//glider is exposed to the air
 		body.AddForce (fallDrag);
 
 		//Add the forces
-		body.AddRelativeForce (getGlide(yVel, Reference.PLAYER_WEIGHT) + forwardDrag + getLift (zVel));
+		body.AddRelativeForce (getGlide(yVel, Reference.PLAYER_WEIGHT) + forwardDrag + getLift (zVel) + sideDrag);
 
 		//print("Added force: " + (getGlide(yVel, Reference.PLAYER_WEIGHT) + 	forwardDrag + getLift (zVel)));
 
@@ -71,8 +76,8 @@ public class Glider : MonoBehaviour {
 		Vector3 brakeDrag = Math.getDrag (body.velocity, Reference.DRAG_COEFFICIENT_UNDER, Reference.AIR_DENSITY_20, 
 			               Reference.AREA_BRAKE);
 
-		Vector3 brakeRightPos = transform.TransformPoint (Vector3.right * 4);
-		Vector3 brakeLeftPos = transform.TransformPoint (Vector3.left * 4);
+		Vector3 brakeRightPos = transform.TransformPoint (Vector3.right * 4 + Vector3.back);
+		Vector3 brakeLeftPos = transform.TransformPoint (Vector3.left * 4 + Vector3.back);
 
 		body.AddForceAtPosition (brakeDrag*Input.GetAxis("brakeR")*0.5f, brakeRightPos);
 
