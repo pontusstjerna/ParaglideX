@@ -1,0 +1,17 @@
+﻿Gradient for wind
+
+
+
+*IMPORTANT* 
+
+
+Lift ~ relativeVel^2 * angleOfAttack
+
+
+Lift is always proportional to the aot. Of speed is const and aot doubles, then lift is also doubled. 
+If aot is too big it will stall. About 20°. 
+
+
+
+Brakes are not only for increasing drag on one side, but for changing the angle of attack of the glider. 
+Therefore, the force applied should be at the trailing edge of the glider.

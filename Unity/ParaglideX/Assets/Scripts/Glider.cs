@@ -4,57 +4,89 @@ using System.Collections;
 public class Glider : MonoBehaviour {
 
 	private Player player;
-	private MeshRenderer gliderRenderer;
 	private Rigidbody body;
 
 	// Use this for initialization
 	void Start () {
 		body = GetComponent<Rigidbody> ();
 		player = GameObject.Find ("Player").GetComponent<Player> ();
-		gliderRenderer = GetComponent<MeshRenderer> ();
 	}
 	
 	// Update is called once per frame
-	void Update () {
-
-		//Hide or show glider
-		gliderRenderer.enabled = player.getDeployed ();
-
-		if (Input.GetKey (KeyCode.Space) && !player.getDeployed()) {
-			body.AddRelativeForce(Vector3.back*1000);
-		}
+	void FixedUpdate () {
 
 		if (player.getDeployed ()) {
 			fly ();
 		}
 
-		print (transform.InverseTransformVector (body.velocity));
+		pushBack ();
+
+		//print (transform.InverseTransformDirection(body.velocity));
 	}
 
 	private void fly(){
-
 		//The local velocity of the glider
-		float yVel = transform.InverseTransformVector(body.velocity).y;
-		//float zVel = transform.InverseTransformVector(body.velocity).z;
+		float yVel = transform.InverseTransformDirection(body.velocity).y;
+		float zVel = transform.InverseTransformDirection(body.velocity).z;
 
-		Vector3 forwardDrag = Math.getDrag (transform.InverseTransformVector(body.velocity), Reference.DRAG_COEFFICIENT_FRONT, Reference.AIR_DENSITY_20,
+		Vector3 forwardDrag = Math.getDrag (zVel*Vector3.forward, Reference.DRAG_COEFFICIENT_FRONT, Reference.AIR_DENSITY_20,
 		                                    Reference.AREA_FRONT);
+		Vector3 fallDrag = Math.getDrag (yVel * Vector3.up, Reference.DRAG_COEFFICIENT_UNDER, Reference.AIR_DENSITY_20,
+			                   Reference.AREA_UNDER);
+
+		//The fall drag is ALWAYS the opposite of gravity, depending on how much of the
+		//glider is exposed to the air
+		body.AddForce (fallDrag);
 
 		//Add the forces
-		body.AddRelativeForce (getRelativeGlide(yVel, Reference.PLAYER_WEIGHT) + 
-		                       forwardDrag + getRelativeLift (yVel, Reference.PLAYER_WEIGHT));
+		body.AddRelativeForce (getGlide(yVel, Reference.PLAYER_WEIGHT) + forwardDrag + getLift (zVel));
+
+		//print("Added force: " + (getGlide(yVel, Reference.PLAYER_WEIGHT) + 	forwardDrag + getLift (zVel)));
+
+		brake();
 	}
 
-	private Vector3 getRelativeLift(float fallVelocity, float mass){
-		return transform.InverseTransformVector(Vector3.up*((-fallVelocity*mass*35)/9)); //Speed makes lift
+	private Vector3 getLift(float relativeSpeed){
+
+		//Lift ~ relativeVel^2 * angleOfAttack
+
+		if (transform.InverseTransformDirection (body.velocity).z > Reference.STALL_LIMIT) { //Cheap stall check
+			return (Vector3.up * Mathf.Pow(relativeSpeed,2)*(GetAngleOfAttack(body.rotation.eulerAngles.x))); //Speed makes lift
+		} else {
+			return Vector3.zero;
+		}
 	}
 
-	private Vector3 getRelativeGlide(float fallVelocity, float mass){
-		return new Vector3(0, 0, (((-fallVelocity) * mass)*1)/1); //Fall makes speed
+	private Vector3 getGlide(float fallVelocity, float mass){
+		return Vector3.forward*-fallVelocity*mass; //Fall makes speed
 	}
 
 	public bool flyAble(){ //If glider is above head
 		return transform.rotation.eulerAngles.x < Reference.FLYABLE_ANGLE &&
 			transform.rotation.eulerAngles.x > -Reference.FLYABLE_ANGLE;
+	}
+
+	private float GetAngleOfAttack(float localRotationX){ //Angle of attack never changes? Hmm...
+		return 7;
+	}
+
+	private void brake(){
+		Vector3 brakeDrag = Math.getDrag (body.velocity, Reference.DRAG_COEFFICIENT_UNDER, Reference.AIR_DENSITY_20, 
+			               Reference.AREA_BRAKE);
+
+		Vector3 brakeRightPos = transform.TransformPoint (Vector3.right * 4);
+		Vector3 brakeLeftPos = transform.TransformPoint (Vector3.left * 4);
+
+		body.AddForceAtPosition (brakeDrag*Input.GetAxis("brakeR")*0.5f, brakeRightPos);
+
+		body.AddForceAtPosition (brakeDrag*Input.GetAxis("brakeL")*0.5f, brakeLeftPos);
+	}
+
+	private void pushBack(){
+		if (Input.GetKeyDown (KeyCode.Space) && !player.getDeployed()) {
+			body.useGravity = false;
+			body.AddRelativeForce(Vector3.back*10000);
+			body.useGravity = true;
+		}
 	}
 }

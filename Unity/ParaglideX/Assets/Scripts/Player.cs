@@ -26,8 +26,8 @@ public class Player : MonoBehaviour {
 	void FixedUpdate () {
 		playerControl ();
 		viewControl ();
-		//print ("Vario: " + flyingBody.velocity.y +
-		//	" Speed: " + transform.InverseTransformVector(flyingBody.velocity).z);
+		print ("Vario: " + flyingBody.velocity.y +
+			" Speed: " + transform.InverseTransformVector(flyingBody.velocity).z);
 	}
 
 	void OnTriggerEnter(Collider collider){ //When hitting ground
