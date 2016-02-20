@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour, IBlowable {
 
 	private Vector3 moveDirection = Vector3.zero;
 	private CharacterController controller;
@@ -17,6 +17,7 @@ public class Player : MonoBehaviour {
 		controller = GetComponent<CharacterController> ();
 		flyingBody = GetComponent<Rigidbody> ();
 		startRotation = flyingBody.rotation;
+		Reference.blowables.Add (this);
 
 		//Turn of the cursor while in fps
 		Cursor.visible = false;
@@ -26,8 +27,8 @@ public class Player : MonoBehaviour {
 	void FixedUpdate () {
 		playerControl ();
 		viewControl ();
-		print ("Vario: " + flyingBody.velocity.y +
-			" Speed: " + transform.InverseTransformVector(flyingBody.velocity).z);
+		print ("Vario: " + flyingBody.velocity.y + " Speed: " 
+		       + new Vector2(flyingBody.velocity.x, flyingBody.velocity.z).magnitude);
 	}
 
 	void OnTriggerEnter(Collider collider){ //When hitting ground
@@ -76,6 +77,7 @@ public class Player : MonoBehaviour {
 
 	private void deployedControl(){
 		//Walk forward
+		//This should be modified so that when the running speed is to high, force is reduced
 		flyingBody.AddRelativeForce (Vector3.forward * Input.GetAxis ("forward")*800);
 	}
 
@@ -125,5 +127,13 @@ public class Player : MonoBehaviour {
 
 	public bool getDeployed(){
 		return deployed;
+	}
+
+	public float GetMass(){
+		return flyingBody.mass;
+	}
+
+	public void AddWind(Vector3 wind){ //Temporary solution. Area should change when wind is comming from different direction
+		flyingBody.AddForce(Math.GetWindForce(wind - flyingBody.velocity, Reference.AREA_PLAYER_FRONT, Reference.DRAG_COEFFICIENT_PLAYER_FRONT));
 	}
 }
