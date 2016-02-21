@@ -24,6 +24,12 @@ public class Player : MonoBehaviour, IBlowable {
 	
 	}
 
+	void Update(){
+		if (Input.GetKey (KeyCode.Escape)) {
+			Application.Quit ();
+		}
+	}
+
 	void FixedUpdate () {
 		playerControl ();
 		viewControl ();
@@ -38,7 +44,7 @@ public class Player : MonoBehaviour, IBlowable {
 	}
 
 	void OnTriggerExit(Collider collider){ //When leaving ground
-		if (collider.gameObject.name == "Terrain") {
+		if (collider.gameObject.name == "Terrain" && deployed) {
 			setFlying (true);
 		}
 	}
@@ -135,5 +141,9 @@ public class Player : MonoBehaviour, IBlowable {
 
 	public void AddWind(Vector3 wind){ //Temporary solution. Area should change when wind is comming from different direction
 		flyingBody.AddForce(Math.GetWindForce(wind - flyingBody.velocity, Reference.AREA_PLAYER_FRONT, Reference.DRAG_COEFFICIENT_PLAYER_FRONT));
+	}
+
+	public Vector3 GetWorldPosition(){
+		return flyingBody.position;
 	}
 }

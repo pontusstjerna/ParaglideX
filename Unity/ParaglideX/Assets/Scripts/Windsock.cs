@@ -18,4 +18,8 @@ public class Windsock : MonoBehaviour, IBlowable {
 	public void AddWind(Vector3 wind){
 		sockBody.AddForce (wind);
 	}
+
+	public Vector3 GetWorldPosition(){
+		return sockBody.position;
+	}
 }

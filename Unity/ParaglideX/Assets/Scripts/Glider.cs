@@ -27,13 +27,13 @@ public class Glider : MonoBehaviour, IBlowable{
 			pushBack ();
 		}
 
-		print ("Relative speed: " + (body.velocity - wind.GetVelocity ()));
+		print ("Relative speed: " + (body.velocity - wind.GetVelocity (this)));
 	}
 
 	private void fly(){ 
 		 
 		//The velocity relative to the air
-		airVelocity = transform.InverseTransformDirection (body.velocity - wind.GetVelocity());
+		airVelocity = transform.InverseTransformDirection (body.velocity - wind.GetVelocity(this));
 
 		//The drag from going forward
 		Vector3 forwardDrag = Math.getDrag (airVelocity.z*Vector3.forward, Reference.DRAG_COEFFICIENT_FRONT, Reference.AIR_DENSITY_20,
@@ -81,14 +81,14 @@ public class Glider : MonoBehaviour, IBlowable{
 	private void brake(){
 
 		//The drag gained when braking (pulling down small part of glider)
-		Vector3 brakeDrag = Math.getDrag (body.velocity - wind.GetVelocity(), Reference.DRAG_COEFFICIENT_UNDER, Reference.AIR_DENSITY_20, 
+		Vector3 brakeDrag = Math.getDrag (body.velocity - wind.GetVelocity(this), Reference.DRAG_COEFFICIENT_UNDER, Reference.AIR_DENSITY_20, 
 			               Reference.AREA_BRAKE);
 
 		Vector3 brakeRightPos = transform.TransformPoint (Vector3.right * 4 + Vector3.back);
 		Vector3 brakeLeftPos = transform.TransformPoint (Vector3.left * 4 + Vector3.back);
 
-		body.AddForceAtPosition (brakeDrag*Input.GetAxis("brakeR")*0.5f, brakeRightPos);
-		body.AddForceAtPosition (brakeDrag*Input.GetAxis("brakeL")*0.5f, brakeLeftPos);
+		body.AddForceAtPosition (brakeDrag*Input.GetAxis("brakeR"), brakeRightPos);
+		body.AddForceAtPosition (brakeDrag*Input.GetAxis("brakeL"), brakeLeftPos);
 	}
 
 	private void pushBack(){
@@ -102,5 +102,9 @@ public class Glider : MonoBehaviour, IBlowable{
 
 	public void AddWind(Vector3 wind){ //Temporary solution. Area should change when wind is comming from different direction
 		body.AddForce (Math.GetWindForce (wind - body.velocity, Reference.AREA_FRONT, Reference.DRAG_COEFFICIENT_FRONT));
+	}
+
+	public Vector3 GetWorldPosition(){
+		return body.position;
 	}
 }
