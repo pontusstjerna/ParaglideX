@@ -14,7 +14,7 @@ public class Player : MonoBehaviour, IBlowable {
 	private AudioSource windSound;
 	private Vector3 relativeVelocityAir;
 
-	private const float maxWindVelocity = 30;
+	private const float maxWindVelocity = 20;
 
 	// Use this for initialization
 	void Start () {
@@ -152,7 +152,7 @@ public class Player : MonoBehaviour, IBlowable {
 		this.flying = flying;
 		flyingBody.freezeRotation = !flying;
 		if(flyingBody.freezeRotation){//Rotate the player right when landing
-			flyingBody.rotation = Quaternion.Euler (flyingBody.rotation.eulerAngles.x, 
+			flyingBody.rotation = Quaternion.Euler (startRotation.eulerAngles.x, 
 			                                        flyingBody.rotation.eulerAngles.y, startRotation.eulerAngles.z);
 		}
 	}

@@ -2,13 +2,18 @@
 using System.Collections;
 
 public class WindController : MonoBehaviour {
-	private Vector3 wind;
-	public Vector3 windDirection;
 	public float windStrength;
+	public float windHeading;
+
+	private Vector3 wind;
+	private Vector3 windDirection;
 	private float precision = 0.1f;
 
 	// Use this for initialization
 	void Start () {
+
+		//Translate heading to vector
+		windDirection = new Vector3 (Mathf.Sin (Mathf.Deg2Rad * windHeading), 0, Mathf.Cos (Mathf.Deg2Rad * windHeading));
 
 		//Use only direction of vector and multiply with the wind strength in m/s.
 		wind = windDirection.normalized * windStrength;
@@ -34,6 +39,11 @@ public class WindController : MonoBehaviour {
 
 	public Vector3 GetVelocity(IBlowable obj){
 		return GetWindAtPos(obj.GetWorldPosition ());
+	}
+
+
+	public float HeightToGround(Vector3 pos){
+		return pos.y - Terrain.activeTerrain.SampleHeight (pos);
 	}
 
 	private Vector3 GetWindAtPos(Vector3 pos){
@@ -62,9 +72,5 @@ public class WindController : MonoBehaviour {
 		Vector3 deltaGroundPos = new Vector3 (hPos.x, Terrain.activeTerrain.SampleHeight(hPos), hPos.z);
 
 		return ((deltaGroundPos - currentGroundPos).normalized);
-	}
-
-	public float HeightToGround(Vector3 pos){
-		return pos.y - Terrain.activeTerrain.SampleHeight (pos);
 	}
 }
