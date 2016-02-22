@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class WindController : MonoBehaviour {
-	public Vector3 wind;
+	private Vector3 wind;
+	public Vector3 windDirection;
 	public float windStrength;
 	private float precision = 0.1f;
 
@@ -10,15 +11,24 @@ public class WindController : MonoBehaviour {
 	void Start () {
 
 		//Use only direction of vector and multiply with the wind strength in m/s.
-		wind = wind.normalized * windStrength;
+		wind = windDirection.normalized * windStrength;
+	}
+
+	void Update(){
+		if(Input.GetKeyUp(KeyCode.F2)){
+			windStrength += 0.2f;
+			wind = windDirection.normalized * windStrength;
+		}else if(Input.GetKeyUp(KeyCode.F1) && windStrength > 0){
+			windStrength -= 0.2f;
+			wind = windDirection.normalized * windStrength;
+		}
 	}
 
 	void FixedUpdate(){
-
 		//Blow on all blowable objects
 		foreach(IBlowable obj in Reference.blowables){
 			obj.AddWind(GetWindAtPos(obj.GetWorldPosition()));
-			print ("Added wind: " + GetWindAtPos(obj.GetWorldPosition()));
+			//print ("Added wind: " + GetWindAtPos(obj.GetWorldPosition()));
 		}
 	}
 
@@ -28,9 +38,13 @@ public class WindController : MonoBehaviour {
 
 	private Vector3 GetWindAtPos(Vector3 pos){
 		float maxSoarAltitude = 40 * windStrength;
-
+		
+		float heightFactor = 1 - (HeightToGround (pos) / maxSoarAltitude);
+		float upProjection = (GetTerrainGradient (pos) * windStrength * heightFactor).y;
+		Vector3 normalWindDir = (upProjection * Vector3.up + wind).normalized;
+			
 		//A cheap solution for upwind to decrease when going higher
-		return GetTerrainGradient (pos)*windStrength*(1 - (HeightToGround(pos)/maxSoarAltitude));
+		return normalWindDir * windStrength;
 	}
 
 	private Vector3 GetTerrainGradient(Vector3 worldPos){

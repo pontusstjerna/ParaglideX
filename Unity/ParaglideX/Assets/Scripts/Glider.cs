@@ -27,7 +27,7 @@ public class Glider : MonoBehaviour, IBlowable{
 			pushBack ();
 		}
 
-		print ("Relative speed: " + (body.velocity - wind.GetVelocity (this)));
+		//print ("Relative speed: " + (body.velocity - wind.GetVelocity (this)));
 	}
 
 	private void fly(){ 

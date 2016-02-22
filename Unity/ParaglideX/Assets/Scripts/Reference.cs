@@ -20,4 +20,5 @@ public static class Reference {
 	public const float AREA_SIDE = 5;
 	public const float AREA_PLAYER_FRONT = 1;
 	public const float STALL_LIMIT = 2;
+	public const float WIND_VOLUME = 1;
 }
