@@ -16,7 +16,7 @@ public static class Reference {
 	public const float AIR_DENSITY_20 = 1.2041f; //https://en.wikipedia.org/wiki/Density_of_air
 	public const float AREA_UNDER = 22;
 	public const float AREA_FRONT = 5.5f;
-	public const float AREA_BRAKE = 1;
+	public const float AREA_BRAKE = 1.2f;
 	public const float AREA_SIDE = 5;
 	public const float AREA_PLAYER_FRONT = 1;
 	public const float STALL_LIMIT = 2;

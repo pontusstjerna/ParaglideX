@@ -1,0 +1,52 @@
+<root>
+  <License id="Terms">
+    <AlwaysOnline Value="false"/>
+    <ClientProvidedVersion Value="5.3.2f1"/>
+    <DeveloperData Value="AQAAAEYzLUpUMlYtUUg1TS1BU1JFLVg3UUYtQUVKUQ=="/>
+    <Features>
+      <Feature Value="1"/>
+      <Feature Value="3"/>
+      <Feature Value="12"/>
+      <Feature Value="17"/>
+      <Feature Value="19"/>
+      <Feature Value="24"/>
+      <Feature Value="33"/>
+      <Feature Value="36"/>
+      <Feature Value="62"/>
+    </Features>
+    <InitialActivationDate Value="2016-02-28T19:56:17"/>
+    <LicenseVersion Value="5.x"/>
+    <MachineBindings>
+      <Binding Key="1" Value="00326-10000-00000-AA420"/>
+      <Binding Key="4" Value="UFRTRFhFMjAzMDAzNzBFRDQyMjcwMA=="/>
+      <Binding Key="2" Value="VCAD446580ST2170NG"/>
+      <Binding Key="5" Value="44:87:fc:f3:43:46"/>
+    </MachineBindings>
+    <MachineID Value="3lrTcI27IrydGtR8KudSsvtdgsk="/>
+    <SerialHash Value="ed264dafbc0668d483e1b3a43d117e07b805a179"/>
+    <SerialMasked Value="F3-JT2V-QH5M-ASRE-X7QF-XXXX"/>
+    <StartDate Value=""/>
+    <StopDate Value=""/>
+    <UpdateDate Value="2016-02-29T19:56:17"/>
+  </License>
+
+<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+<SignedInfo>
+<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments"/>
+<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+<Reference URI="#Terms">
+<Transforms>
+<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+</Transforms>
+<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<DigestValue>31sOF8UcMp+109hNebAThAYu52A=</DigestValue>
+</Reference>
+</SignedInfo>
+<SignatureValue>z6CnzqnlP+AgHC8bUclQe9tuVphEhNzmrxHkEcC7LRsuIGZGqJK31mD4lOgw473s
+/Hk/PVnheN2FpDnR7nkJqOxo+jW8J98ZLYu5YhhDJiVOubsnMaXIdU6jorFKPSKn
+Cd30y3SBMfvL6p27NYWFPZ5+H01ysfifH5wvkqe7B0NZG2cyDQwt4P9U3xP+J5AK
+Nh7l6+jVV63Eua8HBmTVOy5+8qDpFp+8K0dhke49FQ7biBINKSBPUNe8yftSyS9R
+QwzbPaKHKYzvcr0ZNascBhTF2tgb7E/E1x0O/WS8epblaJ39b/XBkyBDx1M9JzQ1
+tANLXF6j2lLnSgS/6BQH5Q==</SignatureValue>
+</Signature>
+</root>

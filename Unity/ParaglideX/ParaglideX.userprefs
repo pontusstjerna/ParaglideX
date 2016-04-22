@@ -1,0 +1,17 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Player\Variometer.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Player\Glider\GliderRenderer.cs" Line="11" Column="105" />
+      <File FileName="Assets\Scripts\Reference.cs" Line="19" Column="37" />
+      <File FileName="Assets\Scripts\Math.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\World\WindController.cs" Line="9" Column="32" />
+      <File FileName="Assets\Scripts\Player\Variometer.cs" Line="22" Column="50" />
+      <File FileName="Assets\Scripts\Player\Glider\Glider.cs" Line="89" Column="41" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
