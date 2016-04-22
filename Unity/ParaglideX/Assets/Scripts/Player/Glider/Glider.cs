@@ -9,6 +9,7 @@ public class Glider : MonoBehaviour, IBlowable{
 	public float angleOfAttack = 5;
 	private Vector3 airVelocity;
 	private GameObject gliderLines;
+	private const float originAngleOfAttack = 5;
 
 	// Use this for initialization
 	void Start () {
@@ -40,10 +41,14 @@ public class Glider : MonoBehaviour, IBlowable{
 		airVelocity = transform.InverseTransformDirection (body.velocity - wind.GetVelocity(this));
 
 		//The drag from going forward
+		//If the angle of attack is higher, the forward drag will increase
 		Vector3 forwardDrag = Math.getDrag (airVelocity.z*Vector3.forward, Reference.DRAG_COEFFICIENT_FRONT, Reference.AIR_DENSITY_20,
-		                                    Reference.AREA_FRONT);
+			Reference.AREA_FRONT*angleOfAttack/originAngleOfAttack);
+
+		//The drag from falling without lift (parachuting)
+		//If the angle of attack is higher, the area under will decrease and thereby fall will increase
 		Vector3 fallDrag = Math.getDrag (airVelocity.y * Vector3.up, Reference.DRAG_COEFFICIENT_UNDER, Reference.AIR_DENSITY_20,
-			                   Reference.AREA_UNDER);
+			Reference.AREA_UNDER/angleOfAttack*originAngleOfAttack);
 
 		//Drag from side-drifting. Speed is a stabilizer! THIS MAGICALLY CREATED CENTRIFUGAL-FORCES!!
 		Vector3 sideDrag = Math.getDrag (airVelocity.x * Vector3.right * Mathf.Abs(airVelocity.z), Reference.DRAG_COEFFICIENT_SIDE, Reference.AIR_DENSITY_20,
@@ -64,9 +69,12 @@ public class Glider : MonoBehaviour, IBlowable{
 
 	private Vector3 getLift(float relativeSpeed){
 
+		print ("Relative speed: " + relativeSpeed + " Actual speed: " + transform.InverseTransformDirection (body.velocity).z + " AoT: " + angleOfAttack + 
+			" Sink: " + body.velocity.y);
+
 		//Lift formula ~ relativeVel^2 * angleOfAttack
 		//Angle of attack is faked here and should be affected only by braking or speeding
-		if (transform.InverseTransformDirection (body.velocity).z > Reference.STALL_LIMIT) { //Cheap stall check
+		if (relativeSpeed > Reference.STALL_LIMIT) { //Cheap stall check
 			return (Vector3.up * Mathf.Pow(relativeSpeed,2)*angleOfAttack); //Speed makes lift
 		} else {
 			return Vector3.zero;
@@ -93,6 +101,9 @@ public class Glider : MonoBehaviour, IBlowable{
 
 		body.AddForceAtPosition (brakeDrag*Input.GetAxis("brakeR"), brakeRightPos);
 		body.AddForceAtPosition (brakeDrag*Input.GetAxis("brakeL"), brakeLeftPos);
+
+		//An experiment in increasing AoT when braking.
+		angleOfAttack = originAngleOfAttack + Input.GetAxis("brakeR") + Input.GetAxis("brakeL");
 	}
 
 	private void pushBack(){
