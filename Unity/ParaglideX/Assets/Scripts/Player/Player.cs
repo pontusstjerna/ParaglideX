@@ -26,6 +26,7 @@ public class Player : MonoBehaviour, IBlowable {
 
 		//Turn of the cursor while in fps
 		Cursor.visible = false;
+		Cursor.lockState = CursorLockMode.Locked;
 
 		//Start playing the wind sound
 		windSound.Play ();
@@ -37,6 +38,9 @@ public class Player : MonoBehaviour, IBlowable {
 		}
 
 		PlayWindSound ();
+		if (flying) {
+			WeightShift ();
+		}
 	}
 
 	void FixedUpdate () {
@@ -143,6 +147,12 @@ public class Player : MonoBehaviour, IBlowable {
 				unDeployedControl ();
 			}
 		}
+	}
+
+	private void WeightShift(){
+
+		//Move the player's center of mass. Not quite working though. It does not really turn! Very good for efficient turning
+		flyingBody.centerOfMass = Vector3.right * Input.GetAxis ("leanRight")*3;
 	}
 	
 	private void setFlying(bool flying){//Sets the mode to flying or not
