@@ -45,6 +45,7 @@ ModelImporter:
     7400026: LeftBrakeArmatureAction
     7400028: LeftBrakeArmature|GliderArmatureAction
     7400030: GliderArmature|LeftBrakeArmatureAction
+    7400032: Lines|LeftBrakeArmatureAction
     9500000: //RootNode
     11100000: //RootNode
     13700000: ASP4
@@ -63,7 +64,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -107,7 +108,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 1
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

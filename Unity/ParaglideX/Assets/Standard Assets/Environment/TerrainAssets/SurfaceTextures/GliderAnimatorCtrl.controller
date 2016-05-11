@@ -27,6 +27,36 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
+--- !u!206 &20642026
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Blend Tree
+  m_Childs:
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400004, guid: 5fabf1d6259515c45a38a5ecd09c107f, type: 3}
+    m_Threshold: 0
+    m_Position: {x: -0.42, y: 0.44}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: BrakingLeft
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400004, guid: 5fabf1d6259515c45a38a5ecd09c107f, type: 3}
+    m_Threshold: 0.5
+    m_Position: {x: -0.13, y: -0.65}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: BrakingLeft
+    m_Mirror: 0
+  m_BlendParameter: BrakingLeft
+  m_BlendParameterY: BrakingLeft
+  m_MinThreshold: 0
+  m_MaxThreshold: 0.5
+  m_UseAutomaticThresholds: 1
+  m_NormalizedBlendValues: 0
+  m_BlendType: 1
 --- !u!1101 &110170794
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -98,13 +128,13 @@ AnimatorState:
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
---- !u!1102 &110295540
+--- !u!1102 &110265530
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: GliderArmature|LeftBrakeArmatureAction
+  m_Name: Blend Tree
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -116,7 +146,7 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 0}
+  m_Motion: {fileID: 20642026}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -136,8 +166,8 @@ AnimatorStateMachine:
     m_State: {fileID: 110237134}
     m_Position: {x: 360, y: -336, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 110295540}
-    m_Position: {x: 54, y: 106, z: 0}
+    m_State: {fileID: 110265530}
+    m_Position: {x: 36, y: 0, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
