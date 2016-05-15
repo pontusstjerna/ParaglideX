@@ -46,6 +46,10 @@ ModelImporter:
     7400028: LeftBrakeArmature|GliderArmatureAction
     7400030: GliderArmature|LeftBrakeArmatureAction
     7400032: Lines|LeftBrakeArmatureAction
+    7400034: GliderArmature|BrakeRight
+    7400036: GliderArmature|LeftBrakeAction
+    7400038: GliderArmature|RightBrakeAction
+    7400040: Lines|BrakeRight
     9500000: //RootNode
     11100000: //RootNode
     13700000: ASP4

@@ -163,22 +163,23 @@ MonoBehaviour:
 GameObject:
   m_PrefabParentObject: {fileID: 100008, guid: 5fabf1d6259515c45a38a5ecd09c107f, type: 3}
   m_PrefabInternal: {fileID: 1386681870}
---- !u!111 &390252642
-Animation:
+--- !u!95 &390252642
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 390252641}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400030, guid: 5fabf1d6259515c45a38a5ecd09c107f, type: 3}
-  m_Animations:
-  - {fileID: 7400030, guid: 5fabf1d6259515c45a38a5ecd09c107f, type: 3}
-  - {fileID: 7400030, guid: 5fabf1d6259515c45a38a5ecd09c107f, type: 3}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ed5a828afd6afd94a89adfc3eb4e41a7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 1
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &390252643
 MonoBehaviour:
   m_ObjectHideFlags: 0
