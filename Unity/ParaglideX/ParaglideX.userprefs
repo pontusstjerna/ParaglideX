@@ -2,11 +2,11 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Player\Glider\GliderRenderer.cs">
     <Files>
-      <File FileName="Assets\Scripts\Player\Glider\GliderRenderer.cs" Line="20" Column="3" />
+      <File FileName="Assets\Scripts\Player\Glider\GliderRenderer.cs" Line="47" Column="2" />
       <File FileName="Assets\Scripts\Player\Glider\Glider.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Reference.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Math.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\World\WindController.cs" Line="34" Column="54" />
+      <File FileName="Assets\Scripts\World\WindController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Player\Variometer.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Player\Player.cs" Line="1" Column="1" />
     </Files>
