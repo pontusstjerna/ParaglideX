@@ -46,7 +46,7 @@ public class WindController : MonoBehaviour {
 	}
 
 	private Vector3 GetWindAtPos(Vector3 pos){
-		float maxSoarAltitude = 40 * windStrength;
+		float maxSoarAltitude = 80 * windStrength;
 		
 		float heightFactor = 1 - (HeightToGround (pos) / maxSoarAltitude);
 		float upProjection = (GetTerrainGradient (pos) * windStrength * heightFactor).y;

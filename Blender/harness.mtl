@@ -1,0 +1,11 @@
+# Blender MTL File: 'harness.blend'
+# Material Count: 1
+
+newmtl Harness.001
+Ns 15.686275
+Ka 0.000000 0.000000 0.000000
+Kd 0.025364 0.025364 0.025364
+Ks 0.053571 0.053571 0.053571
+Ni 1.000000
+d 1.000000
+illum 2

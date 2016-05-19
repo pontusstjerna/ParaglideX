@@ -597,7 +597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ea97ba36fbdf34db88334d863dd967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  windStrength: 4
+  windStrength: 6
   windHeading: 0
 --- !u!182 &1214335547
 WindZone:
