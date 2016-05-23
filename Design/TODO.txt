@@ -1,0 +1,43 @@
+ParaglideX todo list:
+
+Fix flight physics to act just like a real glider [x]
+
+Fix camera bug when landing weird [x]
+
+Fix braking to be more realistic [x]
+
+Fix centrifual forces when turning [x]
+
+The harness straps should be with the glider model [x]
+
+Braking animations []
+
+Wind sounds [x]
+
+Global wind vector with physics [x]
+
+Ridge soaring effects comming from slopes [x]
+
+Realistic stalling mechanism []
+
+Realistic front collapses []
+
+Other collapses []
+
+Able to spiral []
+
+Big ears []
+
+Clouds moving with the wind []
+
+Terrain objects (trees etc.) moving with the wind []
+
+Thermals below cumulus clouds []
+
+A winching field []
+
+Gui []
+
+Multiple gliders, read from json (or similar) files []
+
+Realistic terrain []
