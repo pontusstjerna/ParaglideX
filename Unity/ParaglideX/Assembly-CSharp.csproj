@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\Player\Variometer.cs" />
      <Compile Include="Assets\Scripts\Reference.cs" />
      <Compile Include="Assets\Scripts\World\IBlowable.cs" />
+     <Compile Include="Assets\Scripts\World\Thermal.cs" />
      <Compile Include="Assets\Scripts\World\WindController.cs" />
      <Compile Include="Assets\Scripts\World\Windsock.cs" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />

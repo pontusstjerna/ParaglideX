@@ -40,6 +40,7 @@ public class Glider : MonoBehaviour, IBlowable{
 	private void fly(){ 
 		 
 		//The velocity relative to the air
+        //TODO: MINUS THE THERMAL VELOCITY!!! 
 		airVelocity = transform.InverseTransformDirection (body.velocity - wind.GetVelocity(this));
 
 		//The drag from going forward
@@ -136,8 +137,8 @@ public class Glider : MonoBehaviour, IBlowable{
 	}
 
 	public void AddWind(Vector3 wind){ //Temporary solution. Area should change when wind is comming from different direction
-		body.AddForce (Math.GetWindForce (wind - body.velocity, Reference.AREA_FRONT, Reference.DRAG_COEFFICIENT_FRONT));
-	}
+        body.AddForce (Math.GetWindForce (wind - body.velocity, Reference.AREA_FRONT, Reference.DRAG_COEFFICIENT_FRONT));
+}
 
 	public Vector3 GetWorldPosition(){
 		return body.position;
