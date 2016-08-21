@@ -598,7 +598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ea97ba36fbdf34db88334d863dd967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  windStrength: 0
+  windStrength: 5
   windHeading: 0
 --- !u!182 &1214335547
 WindZone:
@@ -815,12 +815,12 @@ Transform:
   m_PrefabParentObject: {fileID: 400000, guid: fff8ffc7b46316845ab0fa5b4c4fe778, type: 3}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1463924280}
-  m_LocalRotation: {x: 1, y: 0, z: 0, w: -0.00000016292068}
-  m_LocalPosition: {x: 3366.827, y: 3516, z: 6978}
-  m_LocalScale: {x: 100, y: 2000, z: 100}
+  m_LocalRotation: {x: 1, y: 0, z: 0, w: -0.00000016503661}
+  m_LocalPosition: {x: 3366.827, y: 4330.8, z: 6978}
+  m_LocalScale: {x: 500, y: 2000, z: 500}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!64 &1463924284
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1215,7 +1215,7 @@ Transform:
   - {fileID: 846644665}
   - {fileID: 1783106164}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!114 &1940587486
 MonoBehaviour:
   m_ObjectHideFlags: 0

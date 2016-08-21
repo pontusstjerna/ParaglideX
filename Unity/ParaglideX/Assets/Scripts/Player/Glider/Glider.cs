@@ -6,6 +6,7 @@ public class Glider : MonoBehaviour, IBlowable{
 	private Player player;
 	private Rigidbody body;
 	private WindController wind;
+    private Thermal thermals;
 	public float angleOfAttack;
 	private Vector3 airVelocity;
 	private GameObject gliderLines;
@@ -16,6 +17,7 @@ public class Glider : MonoBehaviour, IBlowable{
 		body = GetComponent<Rigidbody> ();
 		player = GameObject.Find ("Player").GetComponent<Player> ();
 		wind = GameObject.Find ("Terrain").GetComponent<WindController> ();
+        thermals = GameObject.Find("Thermal").GetComponent<Thermal>();
 		gliderLines = transform.FindChild ("gliderLines").gameObject;
 		Reference.blowables.Add (this);
 
@@ -41,7 +43,7 @@ public class Glider : MonoBehaviour, IBlowable{
 		 
 		//The velocity relative to the air
         //TODO: MINUS THE THERMAL VELOCITY!!! 
-		airVelocity = transform.InverseTransformDirection (body.velocity - wind.GetVelocity(this));
+		airVelocity = transform.InverseTransformDirection (body.velocity - wind.GetVelocity(this) - thermals.GetVelocity(this));
 
 		//The drag from going forward
 		//If the angle of attack is higher, the forward drag will increase
